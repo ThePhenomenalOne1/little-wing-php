@@ -2,7 +2,7 @@ const express = require('express');
 const sql = require('mssql');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2455;
 
 // Connection configuration
 const config = {
@@ -27,7 +27,7 @@ app.get('/api/data', async (req, res) => {
 
     // Send the result as an HTML table
     const tableHtml = result.recordset.map(row => {
-      return `<tr><td>${row.StudentID}</td><td>${row.FirstName}</td><td>${row.LastName}</td></tr>`;
+      return `<tr><td>${row.Student_ID}</td><td>${row.First_Name}</td><td>${row.Last_Name}</td></tr>`;
     });
 
     res.send(`
