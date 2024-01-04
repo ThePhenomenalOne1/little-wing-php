@@ -25,42 +25,11 @@ app.get('/api/data', async (req, res) => {
     // Query the database
     const result = await pool.request().query('SELECT * FROM Students');
 
-    // Send the result as an HTML table
-    const tableHtml = result.recordset.map(row => {
-      return `<tr><td>${row.Student_ID}</td><td>${row.First_Name}</td><td>${row.Last_Name}</td></tr>`;
-    });
-
-    res.send(`
-      <html>
-        <head>
-          <style>
-            table {
-              border-collapse: collapse;
-              width: 100%;
-            }
-            th, td {
-              border: 1px solid #ddd;
-              padding: 8px;
-              text-align: left;
-            }
-          </style>
-        </head>
-        <body>
-          <h2>Data from Students Table</h2>
-          <table>
-            <tr>
-              <th>Student ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-            </tr>
-            ${tableHtml.join('')}
-          </table>
-        </body>
-      </html>
-    `);
+    // Send the result as JSON
+    res.json(result.recordset);
   } catch (error) {
     console.error('Error fetching data:', error.message);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   } finally {
     // Close the database connection
     await sql.close();
